@@ -21,6 +21,14 @@ export const GlobalStyles = () => (
           'Helvetica Neue', Helvetica, Arial, sans-serif;
       }
 
+      html[lang='zh'] {
+        writing-mode: vertical-rl;
+      }
+
+      html[lang='ar'] {
+        direction: rtl;
+      }
+
       @supports (font-variation-settings: normal) {
         html {
           font-family: 'Inter var', -apple-system, '.SFNSText-Regular', 'San Francisco',

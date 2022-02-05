@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { User } from '../modules/auth';
 import { getUserInfo } from '../server/auth';
@@ -17,7 +18,9 @@ export default function Index() {
       <form action="/api/sign-in">
         <input name="nickname" value={nickname} onChange={(evt) => setNickname(evt.target.value)} />
 
-        <button>Sign in</button>
+        <button>
+          <FormattedMessage id="landing.sign-in" />
+        </button>
       </form>
     </div>
   );
