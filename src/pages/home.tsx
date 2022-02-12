@@ -3,17 +3,17 @@ import Head from 'next/head';
 import { useIntl } from 'react-intl';
 
 import { User } from '../modules/auth';
-import { Index } from '../scenes/Index';
+import { Home } from '../scenes/Home';
 import { getUserInfo } from '../server/auth';
 
-export default function IndexPage() {
+export default function HomePage() {
   const { formatMessage } = useIntl();
   return (
     <>
       <Head>
-        <title>{formatMessage({ id: 'landing.title' })}</title>
+        <title>{formatMessage({ id: 'home.title' })}</title>
       </Head>
-      <Index />
+      <Home />
     </>
   );
 }
@@ -22,6 +22,6 @@ export const getServerSideProps: GetServerSideProps<{ user: User }> = async ({ r
   const user = await getUserInfo({ req, res });
   return {
     props: { user },
-    redirect: !user ? undefined : { destination: '/home', permanent: false },
+    redirect: !user ? { destination: '/', permanent: false } : undefined,
   };
 };

@@ -15,6 +15,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   const userId = (
     await apolloClient.mutate<SignInMutation, SignInMutationVariables>({
+      fetchPolicy: 'network-only',
       mutation: SignInDocument,
       variables: { nickname },
     })

@@ -14,12 +14,9 @@ export const getUserInfo = async ({ req, res }: { req: IncomingMessage; res: Ser
     return (
       (
         await apolloClient.query<MeQuery, MeQueryVariables>({
+          fetchPolicy: 'network-only',
           query: MeDocument,
-          context: {
-            header: {
-              Authorization: `Bearer ${userId}`,
-            },
-          },
+          context: { userId },
         })
       ).data?.me || null
     );
