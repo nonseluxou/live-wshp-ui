@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import {
   ApolloClient,
   ApolloProvider as OriginalApolloProvider,
@@ -26,18 +26,22 @@ const buildLink = ({ userId: userIdParam }: { userId?: string } = {}) => {
   }).concat(httpLink);
 };
 
-export const apolloClient = new ApolloClient({
-  link: buildLink(),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          transactions: relayStylePagination(['where']),
+const buildClient = ({ userId }: { userId?: string } = {}) => {
+  return new ApolloClient({
+    link: buildLink({ userId }),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            timeline: relayStylePagination(),
+          },
         },
       },
-    },
-  }),
-});
+    }),
+  });
+};
+
+export const apolloClient = buildClient();
 
 export const ApolloProvider = ({
   children,
@@ -46,9 +50,6 @@ export const ApolloProvider = ({
   children?: React.ReactNode;
   userId?: string;
 }) => {
-  useEffect(() => {
-    apolloClient.setLink(buildLink({ userId }));
-  }, [userId]);
-
-  return <OriginalApolloProvider client={apolloClient}>{children}</OriginalApolloProvider>;
+  const client = useMemo(() => buildClient({ userId }), [userId]);
+  return <OriginalApolloProvider client={client}>{children}</OriginalApolloProvider>;
 };

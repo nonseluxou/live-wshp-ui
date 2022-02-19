@@ -1,0 +1,11 @@
+mutation Publish($message: String!) {
+  publish(message: $message) {
+    id
+    message
+    createdAt
+    by {
+      id
+      nickname
+    }
+  }
+}

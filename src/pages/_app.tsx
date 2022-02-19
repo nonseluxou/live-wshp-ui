@@ -7,6 +7,7 @@ import { IntlProvider } from 'react-intl';
 import { ApolloProvider } from '../modules/apollo';
 import { GlobalStyles } from '../modules/styles';
 import * as intl from '../modules/intl';
+import { AuthProvider } from '../modules/auth';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { locale: localeParam } = useRouter();
@@ -19,14 +20,16 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [locale]);
 
   return (
-    <ApolloProvider userId={pageProps.user?.id}>
-      <IntlProvider messages={messages} locale={locale} defaultLocale="en">
-        <Head>
-          <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-        </Head>
-        <GlobalStyles />
-        <Component {...pageProps} />
-      </IntlProvider>
-    </ApolloProvider>
+    <AuthProvider value={pageProps.user}>
+      <ApolloProvider userId={pageProps.user?.id}>
+        <IntlProvider messages={messages} locale={locale} defaultLocale="en">
+          <Head>
+            <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+          </Head>
+          <GlobalStyles />
+          <Component {...pageProps} />
+        </IntlProvider>
+      </ApolloProvider>
+    </AuthProvider>
   );
 }

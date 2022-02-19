@@ -1,0 +1,22 @@
+query Timeline($first: Int, $after: String, $before: String, $last: Int) {
+  timeline(first: $first, after: $after, before: $before, last: $last) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        message
+        createdAt
+        by {
+          id
+          nickname
+        }
+      }
+    }
+  }
+}
